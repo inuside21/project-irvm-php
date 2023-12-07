@@ -3,8 +3,7 @@
     // database
     // =========================================================
     // Declare
-    //$connection = mysqli_connect("localhost","root","raspberrypi","vishay-oilbath-db");   
-    $connection = mysqli_connect("localhost","root","","vishay-oilbath-db");  
+    $connection = mysqli_connect("localhost","u684904720_smartbindb","~Orenzo0912","u684904720_smartbindb");  
 
     // Date
     date_default_timezone_set("Asia/Manila");
@@ -18,7 +17,7 @@
     $_SESSION['mainUrl'] = "";
 
     // Content
-    $contentPageTitle = "EETech Oilbath WebApp";
+    $contentPageTitle = "IOT Reverse Vending Machine";
 
     // Content Side Menu
     $contentPageMenu = '
@@ -34,9 +33,9 @@
                 <script>
                 document.write(new Date().getFullYear());
                 </script>
-                <a href="https://eetechinnovation.asia/" target="_blank" class="footer-link fw-medium">EETech Innovation</a>
+                <a href="" target="_blank" class="footer-link fw-medium">IOT Reverse Vending Machine</a>
             </div>
-            <div class="d-none d-lg-inline-block">
+            <div class="d-none">
                 <a href="https://eetech-sys.cloud/project-inventory/login.php" target="_blank" class="footer-link me-4">Inventory System</a>
                 <a href="https://eetech-sys.cloud/project-sales/login.php" target="_blank" class="footer-link me-4">Sales System</a>
                 <a href="https://eetechinnovation.asia/" target="_blank" class="footer-link me-4">Website</a>

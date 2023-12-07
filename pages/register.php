@@ -70,7 +70,7 @@
               </div>
               <!-- /Logo -->
               <h4 class="mb-2"><?php echo $contentPageTitle; ?></h4>
-              <p class="mb-4">Please sign-in to your account</p>
+              <p class="mb-4">Please complete the fields to register</p>
 
               <!-- Notif -->
               <div class="alert alert-success d-none" role="alert" id="dnotiholderok">
@@ -82,7 +82,17 @@
               </div>
               <!-- /Notif -->
 
-              <form class="mb-3" id="uformm">
+              <form class="mb-3" id="uformm" >
+                <div class="mb-3">
+                  <label for="ufname" class="form-label">Name</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="ufname"
+                    name="ufname"
+                    placeholder="Full Name"
+                    autofocus />
+                </div>
                 <div class="mb-3">
                   <label for="uuname" class="form-label">Email or Username</label>
                   <input
@@ -109,14 +119,14 @@
                   </div>
                 </div>
                 <div class="mb-3">
-                  <button class="btn btn-primary d-grid w-100" type="button" id="ubtnlogin">Sign in</button>
+                  <button class="btn btn-primary d-grid w-100" id="ubtnregister" type="button">Register</button>
                 </div>
               </form>
 
               <p class="text-center">
-                <span>New on our platform?</span>
-                <a href="register.php">
-                  <span>Create an account</span>
+                <span>Already have an account?</span>
+                <a href="index.php">
+                  <span>Login Here</span>
                 </a>
               </p>
             </div>
@@ -167,27 +177,27 @@
             window.location.href = "index.php";
           });
 
-          $('#ubtnlogin').click(function(e) 
+          $('#ubtnregister').click(function(e) 
           {
-            SendDataLogin();
+            SendDataRegister();
           });
 
           
 
           // Function
           // =================================
-          // User - Login
-          function SendDataLogin() 
+          // User - Register
+          function SendDataRegister() 
           {
             //
-            $('#ubtnlogin').hide();
+            $('#ubtnregister').hide();
 
             // set
             const form = document.getElementById('uformm');
             const formData = new FormData(form);
             
             // req
-            fetch('../server/api.php?mode=userlogin', {
+            fetch('../server/api.php?mode=userregister', {
               method: 'POST',
               cache: 'no-store',
               body: formData
@@ -197,14 +207,12 @@
             })
             .then(data => {
               //
-              $('#ubtnlogin').show();
-              
+              $('#ubtnregister').show();
+
               // OK
               if (data.status == "ok")
               {
                 ShowNotif(data.status, data.title, data.message);
-                localStorage.setItem("tokenId", data.data);
-                window.location.href = "dashboard.php";
               }
 
               // Err
@@ -215,8 +223,8 @@
             })
             .catch(error => {
               //
-              $('#ubtnlogin').show();
-              
+              $('#ubtnregister').show();
+
               //
               ShowNotif("error", "Transaction Failed", "Please reload this app");
               console.error('Error:', error);
