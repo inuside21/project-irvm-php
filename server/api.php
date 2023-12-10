@@ -481,6 +481,7 @@
 
         // device
         {
+            //
             $stmt = $connection->prepare("SELECT * FROM dev_tbl");
             $stmt->execute();
             $result = $stmt->get_result();
@@ -489,10 +490,37 @@
                 //
                 $deviceData = $obj;
             }
+
+            //
+            $stmt = $connection->prepare("  UPDATE dev_tbl SET
+                                                dev_reward = 0
+            ");
+            $stmt->execute();
         }
 
         //
         echo $deviceData->dev_reward;
+    }
+
+    // ards - reward set
+    if ($_GET['mode'] == "devrewardset")
+    {
+        // check
+        {
+            if (!isset($_GET['cpoints']) || !ValidText($_GET['cpoints'], 1, 15) || !is_numeric($_GET['cpoints']) || (int)$_GET['cpoints'] < 1)
+            {
+                //JSONSet2("error", "Points Set Failed", "Invalid points: " . $_GET['cpoints']);
+            }
+        }
+
+        // device
+        {
+            $stmt = $connection->prepare("  UPDATE dev_tbl SET
+                                                dev_reward = ?
+            ");
+            $stmt->bind_param("s", $_GET['cpoints']);
+            $stmt->execute();
+        }
     }
 
     // ards - code set
@@ -502,9 +530,24 @@
 
         // check
         {
-            if (!isset($_GET['cpoints']) || !ValidText($_GET['cpoints'], 4, 15) || !is_numeric($_GET['cpoints']) || (int)$_GET['cpoints'] < 1)
+            if (!isset($_GET['cpoints']))
             {
-                JSONSet2("error", "Code Failed", "Invalid points");
+                JSONSet2("error", "Code Failed 1", "Invalid points: " . $_GET['cpoints']);
+            }
+
+            if (!ValidText($_GET['cpoints'], 1, 15))
+            {
+                JSONSet2("error", "Code Failed 2", "Invalid points: " . $_GET['cpoints']);
+            }
+
+            if (!is_numeric($_GET['cpoints']))
+            {
+                JSONSet2("error", "Code Failed 3", "Invalid points: " . $_GET['cpoints']);
+            }
+
+            if ((int)$_GET['cpoints'] < 1)
+            {
+                JSONSet2("error", "Code Failed 4", "Invalid points: " . $_GET['cpoints']);
             }
         }
 
@@ -530,11 +573,14 @@
         // device
         {
             $stmt = $connection->prepare("  UPDATE dev_tbl SET
+                                                dev_reward = 0,
                                                 dev_code = ?
             ");
             $stmt->bind_param("s", $codeNew);
             $stmt->execute();
         }
+
+        echo "OK1";
     }
 
     // ards - inuse reward set
